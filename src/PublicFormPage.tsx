@@ -76,6 +76,9 @@ export const PublicFormPage = () => {
             case "education-level":
                 nextPage = validateEducationLevel(e);
                 break;
+            case "previously-applied":
+                nextPage = validatePreviouslyApplied(e);
+                break;
         }
         if (nextPage) {
             continueTo(nextPage);
@@ -150,8 +153,29 @@ export const PublicFormPage = () => {
         ]);
         if (!isValid) return undefined;
 
-        // Continue to next page regardless of education level selection
+        const educationLevel = (e as CustomEvent).detail?.state?.["education-level"];
+        if (educationLevel?.value === "None") {
+            setNotEligibleMessage("You need to have completed at least a high school level of education to use this service.");
+            return "result-not-eligible";
+        }
+
         return "previously-applied";
+    }
+
+    const validatePreviouslyApplied = (e: Event): Page|undefined => {
+        const [isValid] = validate(e, "previously-applied", [
+            requiredValidator("Please tell us if you have previously applied for or received this service.")
+        ]);
+        if (!isValid) return undefined;
+
+        const previouslyApplied = (e as CustomEvent).detail?.state?.["previously-applied"];
+        if (previouslyApplied?.value === "Yes") {
+            setNotEligibleMessage("You cannot use this service if you already received this service.");
+            return "result-not-eligible";
+        }
+        if (previouslyApplied?.value === "No") return "result-eligible";
+
+        return undefined;
     }
 
     return (
@@ -220,8 +244,23 @@ export const PublicFormPage = () => {
                     </GoabFieldset>
                 </GoabPublicFormPage>
 
+                <GoabPublicFormPage id="previously-applied" heading="Have you previously applied for or received this service?" onContinue={(e) => onContinue(e, "previously-applied")}>
+                    <GoabFieldset>
+                        <GoabFormItem>
+                            <GoabRadioGroup name={"previously-applied"} id="previously-applied">
+                                <GoabRadioItem value="Yes" label="Yes"></GoabRadioItem>
+                                <GoabRadioItem value="No" label="No"></GoabRadioItem>
+                            </GoabRadioGroup>
+                        </GoabFormItem>
+                    </GoabFieldset>
+                </GoabPublicFormPage>
+
                 <GoabPublicFormPage id="result-not-eligible" heading="">
                     <p>{notEligibleMessage}</p>
+                </GoabPublicFormPage>
+
+                <GoabPublicFormPage id="result-eligible" heading="">
+                    <p>You are eligible to use this service.</p>
                 </GoabPublicFormPage>
             </GoabPublicForm>
         </>
