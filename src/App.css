@@ -1,1 +1,11 @@
 @import "@abgov/web-components/index.css";
+
+p.small {
+    margin-left: var(--goa-space-xl);
+    margin-top: var(--goa-space-2xs);
+    font-size: var(--goa-typography-body-s);
+    color: var(--goa-color-text-secondary);
+}
+div.warning {
+    width: 22rem;
+}
