@@ -1,11 +1,14 @@
 import React, {useState} from "react";
 import {
     GoabBadge,
+    GoabBlock,
     GoabButton,
     GoabCallout,
     GoabCheckbox,
     GoabDatePicker,
     GoabDetails,
+    GoabDropdown,
+    GoabDropdownItem,
     GoabFieldset,
     GoabFormItem,
     GoabInput,
@@ -32,7 +35,12 @@ type Page =
     | "previously-applied"
     | "task-list-summary"
     | "terms-of-use"
-    | "section1b-summary";
+    | "section1b-summary"
+    | "2A.1"
+    | "2A.2"
+    | "2A.3"
+    | "2A.3.a"
+    | "2A.Review";
 
 export const PublicFormPage = () => {
     const [currentSection, setCurrentSection] = useState<Section>("form");
@@ -98,6 +106,18 @@ export const PublicFormPage = () => {
                 break;
             case "section1b-summary":
                 nextPage = validateSection1BSummary(e);
+                break;
+            case "2A.1":
+                nextPage = validate2A1(e);
+                break;
+            case "2A.2":
+                nextPage = validate2A2(e);
+                break;
+            case "2A.3":
+                nextPage = validate2A3(e);
+                break;
+            case "2A.3.a":
+                nextPage = validate2A3A(e);
                 break;
         }
         if (nextPage) {
@@ -215,6 +235,58 @@ export const PublicFormPage = () => {
         return undefined; // Don't navigate to another page, onComplete handles it
     }
 
+    const validate2A1 = (e: Event): Page|undefined => {
+        const [isValid] = validate(e, "name", [requiredValidator("Please enter your name.")]);
+        if (!isValid) return undefined;
+        return "2A.2";
+    }
+
+    const validate2A2 = (e: Event): Page|undefined => {
+        const [isStreetValid] = validate(e, "street-address", [requiredValidator("Please enter your street address.")]);
+        const [isCityValid] = validate(e, "city", [requiredValidator("Please enter your city or town.")]);
+        const [isProvinceValid] = validate(e, "province", [requiredValidator("Please select your province or territory.")]);
+        const [isPostalValid] = validate(e, "postal-code", [requiredValidator("Please enter your postal code.")]);
+        
+        if (!isStreetValid || !isCityValid || !isProvinceValid || !isPostalValid) return undefined;
+        return "2A.3";
+    }
+
+    const validate2A3 = (e: Event): Page|undefined => {
+        const [isValid] = validate(e, "contact-feedback", [requiredValidator("Please select an option.")]);
+        if (!isValid) return undefined;
+        
+        const contactFeedback = (e as CustomEvent).detail?.state?.["contact-feedback"];
+        if (contactFeedback?.value === "Yes") {
+            return "2A.3.a";
+        }
+        // TODO: Handle "No" case later
+        return undefined;
+    }
+
+    const validate2A3A = (e: Event): Page|undefined => {
+        const state = (e as CustomEvent).detail?.state;
+        
+        // Check if contact-email is checked and validate email-address
+        if (state?.["contact-email"]?.value === "checked") {
+            const [isEmailValid] = validate(e, "email-address", [requiredValidator("Email address is required")]);
+            if (!isEmailValid) return undefined;
+        }
+        
+        // Check if contact-phone is checked and validate phone-number
+        if (state?.["contact-phone"]?.value === "checked") {
+            const [isPhoneValid] = validate(e, "phone-number", [requiredValidator("Phone number is required")]);
+            if (!isPhoneValid) return undefined;
+        }
+        
+        // Check if contact-text is checked and validate mobile-phone-number
+        if (state?.["contact-text"]?.value === "checked") {
+            const [isTextValid] = validate(e, "mobile-phone-number", [requiredValidator("Mobile phone number is required")]);
+            if (!isTextValid) return undefined;
+        }
+        
+        return "2A.Review";
+    }
+
     const handleReadTermsClick = (e: React.MouseEvent) => {
         e.preventDefault();
         continueTo("terms-of-use");
@@ -222,7 +294,7 @@ export const PublicFormPage = () => {
 
     const handleContactDetailsClick = (e: React.MouseEvent) => {
         e.preventDefault();
-        setCurrentSection("section2a");
+        continueTo("2A.1");
     }
 
     const handleFamilyClick = (e: React.MouseEvent) => {
@@ -558,6 +630,116 @@ export const PublicFormPage = () => {
                             </tr>
                             </tbody>
                         </GoabTable>
+                    </GoabPublicFormPage>
+
+                    {/* Section 2A Pages */}
+                    <GoabPublicFormPage
+                        id="2A.1"
+                        heading="What is your name?"
+                        buttonText="Save and continue"
+                        onContinue={(e) => onContinue(e, "2A.1")}
+                    >
+                        <GoabFieldset>
+                            <GoabFormItem>
+                                <GoabInput name="name"/>
+                            </GoabFormItem>
+                        </GoabFieldset>
+                    </GoabPublicFormPage>
+
+                    <GoabPublicFormPage
+                        id="2A.2"
+                        heading="What is your current home address?"
+                        buttonText="Save and continue"
+                        onContinue={(e) => onContinue(e, "2A.2")}
+                    >
+                        <GoabFieldset>
+                            <GoabFormItem label="Street address">
+                                <GoabInput name="street-address" />
+                            </GoabFormItem>
+                            <GoabFormItem label="Suite or unit #" requirement={"optional"}>
+                                <GoabInput name="suite" />
+                            </GoabFormItem>
+                            <GoabFormItem label="City or town">
+                                <GoabInput name="city" />
+                            </GoabFormItem>
+                            <GoabBlock direction="row" gap="xl">
+                                <GoabFormItem label="Province or territory">
+                                    <GoabDropdown name="province" placeholder="Select">
+                                        <GoabDropdownItem value="AB" label="Alberta" />
+                                        <GoabDropdownItem value="BC" label="British Columbia" />
+                                        <GoabDropdownItem value="MB" label="Manitoba" />
+                                        <GoabDropdownItem value="NB" label="New Brunswick" />
+                                        <GoabDropdownItem value="NL" label="Newfoundland and Labrador" />
+                                        <GoabDropdownItem value="NT" label="Northwest Territories" />
+                                        <GoabDropdownItem value="NS" label="Nova Scotia" />
+                                        <GoabDropdownItem value="NU" label="Nunavut" />
+                                        <GoabDropdownItem value="ON" label="Ontario" />
+                                        <GoabDropdownItem value="PE" label="Prince Edward Island" />
+                                        <GoabDropdownItem value="QC" label="Quebec" />
+                                        <GoabDropdownItem value="SK" label="Saskatchewan" />
+                                        <GoabDropdownItem value="YT" label="Yukon" />
+                                    </GoabDropdown>
+                                </GoabFormItem>
+                                <GoabFormItem label="Postal code">
+                                    <GoabInput name="postal-code" />
+                                </GoabFormItem>
+                            </GoabBlock>
+                        </GoabFieldset>
+                    </GoabPublicFormPage>
+
+                    <GoabPublicFormPage
+                        id="2A.3"
+                        heading="Can we contact you in the future for feedback on our services?"
+                        buttonText="Save and continue"
+                        onContinue={(e) => onContinue(e, "2A.3")}
+                    >
+                        <GoabFieldset>
+                            <GoabFormItem>
+                                <GoabRadioGroup name="contact-feedback" id="contact-feedback">
+                                    <GoabRadioItem value="Yes" label="Yes" />
+                                    <GoabRadioItem value="No" label="No" />
+                                </GoabRadioGroup>
+                            </GoabFormItem>
+                        </GoabFieldset>
+                    </GoabPublicFormPage>
+
+                    <GoabPublicFormPage
+                        id="2A.3.a"
+                        heading="How would you like to be contacted?"
+                        buttonText="Save and continue"
+                        onContinue={(e) => onContinue(e, "2A.3.a")}
+                    >
+                        <GoabFieldset>
+                            <GoabFormItem>
+                                <GoabCheckbox
+                                    name="contact-phone"
+                                    text="Phone"
+                                    reveal={
+                                        <GoabFormItem label="Phone number">
+                                            <GoabInput name="phone-number"/>
+                                        </GoabFormItem>
+                                    }
+                                />
+                                <GoabCheckbox
+                                    name="contact-email"
+                                    text="Email"
+                                    reveal={
+                                        <GoabFormItem label="Email address">
+                                            <GoabInput name="email-address" type="email" />
+                                        </GoabFormItem>
+                                    }
+                                />
+                                <GoabCheckbox
+                                    name="contact-text"
+                                    text="Text message"
+                                    reveal={
+                                        <GoabFormItem label="Mobile phone number">
+                                            <GoabInput name="mobile-phone-number" />
+                                        </GoabFormItem>
+                                    }
+                                />
+                            </GoabFormItem>
+                        </GoabFieldset>
                     </GoabPublicFormPage>
                 </GoabPublicForm>
             )}
