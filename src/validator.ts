@@ -32,9 +32,9 @@ export const dateOfBirthValidator = (): FieldValidator => {
         const monthNum = parseInt(month, 10);
         const dayNum = parseInt(day, 10);
 
-        // Check year range
-        if (yearNum < 1900 || yearNum > new Date().getFullYear()) {
-            return "Enter a valid year.";
+        // Check year range (only check minimum, let future date check handle maximum)
+        if (yearNum < 1900) {
+            return "Enter a date of birth in the past.";
         }
 
         // Check month range

@@ -16,7 +16,9 @@ export function App() {
             </section>
 
             <GoabPageBlock width="100%">
-                <Outlet/>
+                <div className="main-content">
+                    <Outlet/>
+                </div>
             </GoabPageBlock>
 
             <section slot="footer">

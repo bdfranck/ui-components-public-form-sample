@@ -1,5 +1,10 @@
 @import "@abgov/web-components/index.css";
 
+.main-content {
+    padding-left: 4rem;
+    padding-top: 16px;
+}
+
 p.small {
     margin-left: var(--goa-space-xl);
     margin-top: var(--goa-space-2xs);

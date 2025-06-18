@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "@abgov/web-components";
 import App from './App';
 import './App.css';
-import {PublicFormPage} from "./PublicFormPage";
+import {SimplePublicFormExample} from "./SimplePublicFormExample";
 import {IntroductionPage} from "./IntroductionPage";
 
 // Explicitly expose React to the window object to ensure libraries use the same instance
@@ -20,7 +20,7 @@ root.render(
             <Routes>
                 <Route path="/" element={<App />}>
                     <Route index element={<IntroductionPage />} />
-                    <Route path={"/public-form"} element={<PublicFormPage/>}></Route>
+                    <Route path={"/public-form"} element={<SimplePublicFormExample/>}></Route>
                 </Route>
             </Routes>
         </BrowserRouter>
