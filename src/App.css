@@ -25,6 +25,7 @@ p.small {
     font-size: var(--goa-typography-body-s);
     color: var(--goa-color-text-secondary);
 }
+
 div.warning {
     width: 22rem;
 }
@@ -39,6 +40,40 @@ div.warning {
 
 ::view-transition-new(main-content) {
   animation: slide-in 400ms cubic-bezier(0, 0, 0.58, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .main-content {
+    animation: fade-in 400ms cubic-bezier(0, 0, 0.58, 1) forwards;
+  }
+
+  ::view-transition-old(main-content) {
+    animation: fade-out 400ms cubic-bezier(0, 0, 0.58, 1) forwards;
+  }
+
+  ::view-transition-new(main-content) {
+    animation: fade-in 400ms cubic-bezier(0, 0, 0.58, 1) forwards;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
 
 @keyframes slide-in {
