@@ -9,19 +9,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@abgov/react-components": "/Users/thytran142/WebstormProjects/ui-components/dist/libs/react-components",
-    "@abgov/ui-components-common": "/Users/thytran142/WebstormProjects/ui-components/dist/libs/common",
-    "@abgov/web-components": "/Users/thytran142/WebstormProjects/ui-components/dist/libs/web-components",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-router-dom": "^6.22.2"
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-router-dom": "^6.30.1"
   },
   "devDependencies": {
-    "@types/react": "^19.0.0",
-    "@types/react-dom": "^19.0.0",
-    "@vitejs/plugin-react": "^4.2.1",
+    "@abgov/react-components": "^6.6.1",
+    "@abgov/ui-components-common": "^1.6.0",
+    "@abgov/web-components": "^1.36.1",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^4.7.0",
     "gh-pages": "^6.3.0",
-    "typescript": "^5.3.3",
-    "vite": "^5.1.4"
+    "typescript": "^5.9.2",
+    "vite": "^5.4.19"
   }
 }

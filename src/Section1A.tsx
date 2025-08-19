@@ -83,7 +83,13 @@ export const Section1A = ({ onComplete }: Section1AProps) => {
         break;
     }
     if (nextPage) {
-      continueTo(nextPage);
+      if (document.startViewTransition) {
+        document.startViewTransition(() => continueTo(nextPage));
+      }
+      else {
+        console.warn("View transitions not supported, navigating directly");
+        continueTo(nextPage)
+      }
     }
   }
   const validateLiveInAlberta = (e: Event): Page|undefined => {

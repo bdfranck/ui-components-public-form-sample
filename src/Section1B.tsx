@@ -52,7 +52,13 @@ export const Section1B = ({ onComplete, onBack }: Section1BProps) => {
         break;
     }
     if (nextPage) {
-      continueTo(nextPage);
+      if (document.startViewTransition) {
+        document.startViewTransition(() => continueTo(nextPage));
+      }
+      else {
+        console.warn("View transitions not supported, navigating directly");
+        continueTo(nextPage);
+      }
     }
   }
 

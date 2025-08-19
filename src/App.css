@@ -1,5 +1,9 @@
 @import "@abgov/web-components/index.css";
 
+body {
+  view-transition-name: content;;
+}
+
 .main-content {
     padding-left: 4rem;
     padding-top: 16px;
@@ -13,4 +17,51 @@ p.small {
 }
 div.warning {
     width: 22rem;
+}
+
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(*) {
+  animation: slide-out 400ms cubic-bezier(0, 0, 0.58, 1) forwards;
+}
+
+::view-transition-new(*) {
+  animation: slide-in 400ms cubic-bezier(0, 0, 0.58, 1) forwards;
+}
+
+@keyframes slide-in {
+  0% {
+    opacity: 0;    
+    transform: translateY(12px);
+  }
+
+  50% {
+    opacity: 0;    
+    transform: translateY(12px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
+@keyframes slide-out {
+  0% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+
+  50% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+
 }

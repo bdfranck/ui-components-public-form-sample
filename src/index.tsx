@@ -1,4 +1,4 @@
-import React, {StrictMode} from 'react';
+import React, {StrictMode, useRef} from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "@abgov/web-components";
@@ -11,7 +11,7 @@ import {IntroductionPage} from "./IntroductionPage";
 // @ts-ignore
 window.React = React;
 // @ts-ignore
-window.ReactDOM = ReactDOM;
+window.ReactDOM = ReactDOM; 
 
 const root = ReactDOM.createRoot(document.getElementById('root')!);
 root.render(

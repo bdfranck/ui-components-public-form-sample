@@ -38,6 +38,7 @@ interface TaskSection {
 export const SimplePublicFormExample = () => {
   const [currentView, setCurrentView] = useState<CurrentView>({ type: "task", taskId: "section1a" });
 
+
   const [taskSections, setTaskSections] = useState<TaskSection[]>([
     {
       id: "before-you-start",
@@ -110,7 +111,14 @@ export const SimplePublicFormExample = () => {
   const navigateTo = (taskId: string) => (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setCurrentView({ type: "task", taskId });
+    
+    if (document.startViewTransition) {
+      document.startViewTransition(() => setCurrentView({ type: "task", taskId }));
+    }
+    else {
+      console.warn("View transitions not supported, navigating directly");
+      setCurrentView({ type: "task", taskId });
+    } 
   }
 
   const onSection1BComplete = () => {
@@ -127,7 +135,13 @@ export const SimplePublicFormExample = () => {
       }))
     );
 
-    setCurrentView({ type: "tasklist" });
+    if (document.startViewTransition) {
+        document.startViewTransition(() => setCurrentView({ type: "tasklist" }));
+    }
+    else {
+        console.warn("View transitions not supported, navigating directly");
+        setCurrentView({ type: "tasklist" });
+    }
   }
 
   // Helper function to handle section 2 completions
@@ -144,9 +158,19 @@ export const SimplePublicFormExample = () => {
 
       // Check if 2 out of 3 tasks in prepare-application are completed after this update
       if (checkIfShowCompletion(updatedSections)) {
-        setCurrentView({ type: "completion" });
+        if (document.startViewTransition) {
+          document.startViewTransition(() => setCurrentView({ type: "completion" }));
+        } else {
+          console.warn("View transitions not supported, navigating directly");
+          setCurrentView({ type: "completion" });
+        }
       } else {
-        setCurrentView({ type: "tasklist" });
+        if (document.startViewTransition) {
+          document.startViewTransition(() => setCurrentView({ type: "tasklist" }));
+        } else {
+          console.warn("View transitions not supported, navigating directly");
+          setCurrentView({ type: "tasklist" });
+        }
       }
 
       return updatedSections;
@@ -155,7 +179,12 @@ export const SimplePublicFormExample = () => {
 
 
   const onSection1BBack = () => {
-    setCurrentView({ type: "tasklist" });
+    if (document.startViewTransition) {
+      document.startViewTransition(() => setCurrentView({ type: "tasklist" }));
+    } else {
+      console.warn("View transitions not supported, navigating directly");
+      setCurrentView({ type: "tasklist" });
+    }
   }
 
   // Check if 2 out of 3 tasks in "Prepare application" section are completed
@@ -185,7 +214,12 @@ export const SimplePublicFormExample = () => {
     );
 
     // Switch to task list view
-    setCurrentView({ type: "tasklist" });
+    if (document.startViewTransition) {
+      document.startViewTransition(() => setCurrentView({ type: "tasklist" }));
+    } else {
+      console.warn("View transitions not supported, navigating directly");
+      setCurrentView({ type: "tasklist" });
+    }
   }
 
   // Calculate progress for the callout message

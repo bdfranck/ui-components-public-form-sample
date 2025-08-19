@@ -90,7 +90,13 @@ export const Section2B = ({onComplete}: Section2BProps) => {
     }
 
     if (nextPage) {
-      continueTo(nextPage);
+      if (document.startViewTransition) {
+        document.startViewTransition(() => continueTo(nextPage));
+      }
+      else {
+        console.warn("View transitions not supported, navigating directly");
+        continueTo(nextPage);
+      }      
     }
   }
 

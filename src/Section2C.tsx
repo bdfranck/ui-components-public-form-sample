@@ -56,7 +56,13 @@ export const Section2C = ({onComplete}: Section2CProps) => {
     }
 
     if (nextPage) {
-      continueTo(nextPage);
+      if (document.startViewTransition) {
+        document.startViewTransition(() => continueTo(nextPage));
+      }
+      else {
+        console.warn("View transitions not supported, navigating directly");
+        continueTo(nextPage);
+      }
     }
   }
 
