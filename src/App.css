@@ -4,9 +4,19 @@ body {
   view-transition-name: content;;
 }
 
+.header {
+   animation: fade-in 400ms cubic-bezier(0, 0, 0.58, 1) forwards;
+} 
+
+.footer {
+   animation: fade-in 400ms cubic-bezier(0, 0, 0.58, 1) forwards;
+}
+
 .main-content {
     padding-left: 4rem;
     padding-top: 16px;
+    view-transition-name: main-content;
+    animation: slide-in 400ms cubic-bezier(0, 0, 0.58, 1) forwards;
 }
 
 p.small {
@@ -23,11 +33,11 @@ div.warning {
   navigation: auto;
 }
 
-::view-transition-old(*) {
+::view-transition-old(main-content) {
   animation: slide-out 400ms cubic-bezier(0, 0, 0.58, 1) forwards;
 }
 
-::view-transition-new(*) {
+::view-transition-new(main-content) {
   animation: slide-in 400ms cubic-bezier(0, 0, 0.58, 1) forwards;
 }
 

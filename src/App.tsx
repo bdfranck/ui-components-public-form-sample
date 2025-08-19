@@ -11,7 +11,7 @@ import {
 export function App() {
     return (
         <GoabOneColumnLayout>
-            <section slot="header">
+            <section slot="header" className='header'>
                 <GoabMicrositeHeader type="alpha"/>
                 <GoabAppHeader url="/" heading="Service name" maxContentWidth="100%"/>
             </section>
@@ -22,7 +22,7 @@ export function App() {
                 </div>
             </GoabPageBlock>
 
-            <section slot="footer">
+            <section slot="footer" className='footer'>
                 <GoabAppFooter maxContentWidth="100%">
                 </GoabAppFooter>
             </section>
