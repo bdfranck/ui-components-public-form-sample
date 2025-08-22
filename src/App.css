@@ -1,7 +1,9 @@
 @import "@abgov/web-components/index.css";
 
 :root {
-  --goa-animation-timing: 400ms;
+  --goa-animation-timing: 700ms;
+  --goa-animation-slide-in: 12px;
+  --goa-animation-slide-out: -12px;
 }
 
 body {
@@ -83,12 +85,12 @@ div.warning {
 @keyframes slide-in {
   0% {
     opacity: 0;    
-    transform: translateY(12px);
+    transform: translateY(var(--goa-animation-slide-in));
   }
 
   50% {
     opacity: 0;    
-    transform: translateY(12px);
+    transform: translateY(var(--goa-animation-slide-in));
   }
 
   100% {
@@ -105,12 +107,12 @@ div.warning {
 
   50% {
     opacity: 0;
-    transform: translateY(-12px);
+    transform: translateY(var(--goa-animation-slide-out));
   }
 
   100% {
     opacity: 0;
-    transform: translateY(-12px);
+    transform: translateY(var(--goa-animation-slide-out));
   }
 
 }
