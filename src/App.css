@@ -4,6 +4,7 @@
   --goa-animation-timing: 700ms;
   --goa-animation-slide-in: 12px;
   --goa-animation-slide-out: -12px;
+  --goa-animation-timing-function: cubic-bezier(0, 0, 0.58, 1);
 }
 
 body {
@@ -11,18 +12,18 @@ body {
 }
 
 .header {
-   animation: fade-in var(--goa-animation-timing) cubic-bezier(0, 0, 0.58, 1) forwards;
+   animation: fade-in var(--goa-animation-timing) var(--goa-animation-timing-function) forwards;
 } 
 
 .footer {
-   animation: fade-in var(--goa-animation-timing) cubic-bezier(0, 0, 0.58, 1) forwards;
+   animation: fade-in var(--goa-animation-timing) var(--goa-animation-timing-function) forwards;
 }
 
 .main-content {
     padding-left: 4rem;
     padding-top: 16px;
     view-transition-name: main-content;
-    animation: slide-in var(--goa-animation-timing) cubic-bezier(0, 0, 0.58, 1) forwards;
+    animation: slide-in var(--goa-animation-timing) var(--goa-animation-timing-function) forwards;
 }
 
 p.small {
@@ -41,24 +42,24 @@ div.warning {
 }
 
 ::view-transition-old(main-content) {
-  animation: slide-out var(--goa-animation-timing) cubic-bezier(0, 0, 0.58, 1) forwards;
+  animation: slide-out var(--goa-animation-timing) var(--goa-animation-timing-function) forwards;
 }
 
 ::view-transition-new(main-content) {
-  animation: slide-in var(--goa-animation-timing) cubic-bezier(0, 0, 0.58, 1) forwards;
+  animation: slide-in var(--goa-animation-timing) var(--goa-animation-timing-function) forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .main-content {
-    animation: fade-in var(--goa-animation-timing) cubic-bezier(0, 0, 0.58, 1) forwards;
+    animation: fade-in var(--goa-animation-timing) var(--goa-animation-timing-function) forwards;
   }
 
   ::view-transition-old(main-content) {
-    animation: fade-out var(--goa-animation-timing) cubic-bezier(0, 0, 0.58, 1) forwards;
+    animation: fade-out var(--goa-animation-timing) var(--goa-animation-timing-function) forwards;
   }
 
   ::view-transition-new(main-content) {
-    animation: fade-in var(--goa-animation-timing) cubic-bezier(0, 0, 0.58, 1) forwards;
+    animation: fade-in var(--goa-animation-timing) var(--goa-animation-timing-function) forwards;
   }
 }
 
