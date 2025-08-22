@@ -1,5 +1,6 @@
 import {GoabText, GoabButton} from "@abgov/react-components";
 import {useNavigate} from "react-router-dom";
+import { startViewTransition } from "./viewTransitions";
 import "./IntroductionPage.css";
 
 export const IntroductionPage = () => {
@@ -45,13 +46,7 @@ export const IntroductionPage = () => {
 
 
             <GoabButton type="start" mt={"2xl"} onClick={() => {
-                if(document.startViewTransition) {
-                    document.startViewTransition(() => navigate('/public-form'));
-                }
-                else {
-                    console.warn("View transitions not supported, navigating directly");
-                    navigate('/public-form');
-                }                 
+                startViewTransition(() => navigate('/public-form'));               
             }}>
                 Apply for [service]
             </GoabButton>

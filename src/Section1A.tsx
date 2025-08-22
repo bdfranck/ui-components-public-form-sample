@@ -17,6 +17,7 @@ import {
 } from "@abgov/react-components";
 import { GoabFormState, requiredValidator } from "@abgov/ui-components-common";
 import { dateOfBirthValidator } from "./validator";
+import { startViewTransition } from "./viewTransitions";
 import React, { useState } from "react";
 
 type Page =
@@ -83,13 +84,7 @@ export const Section1A = ({ onComplete }: Section1AProps) => {
         break;
     }
     if (nextPage) {
-      if (document.startViewTransition) {
-        document.startViewTransition(() => continueTo(nextPage));
-      }
-      else {
-        console.warn("View transitions not supported, navigating directly");
-        continueTo(nextPage)
-      }
+      startViewTransition(() => continueTo(nextPage));
     }
   }
   const validateLiveInAlberta = (e: Event): Page|undefined => {

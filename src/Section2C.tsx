@@ -12,6 +12,7 @@ import {
   usePublicFormController,
 } from "@abgov/react-components";
 import { UploadIdentityFile } from "./UploadIdentityFile";
+import { startViewTransition } from "./viewTransitions";
 
 type Page = "2C.1" | "2C.Review";
 
@@ -56,13 +57,7 @@ export const Section2C = ({onComplete}: Section2CProps) => {
     }
 
     if (nextPage) {
-      if (document.startViewTransition) {
-        document.startViewTransition(() => continueTo(nextPage));
-      }
-      else {
-        console.warn("View transitions not supported, navigating directly");
-        continueTo(nextPage);
-      }
+      startViewTransition(() => continueTo(nextPage));
     }
   }
 

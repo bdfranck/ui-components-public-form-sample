@@ -14,6 +14,7 @@ import {
   usePublicFormController,
 } from "@abgov/react-components";
 import { GoabFormState, requiredValidator } from "@abgov/ui-components-common";
+import { startViewTransition } from "./viewTransitions";
 
 type Page = "2A.1"
   | "2A.2"
@@ -71,13 +72,7 @@ export const Section2A = ({onComplete}: Section2AProps) => {
         break;
     }
     if (nextPage) {
-      if (document.startViewTransition) {
-        document.startViewTransition(() => continueTo(nextPage));
-      }
-      else {
-        console.warn("View transitions not supported, navigating directly");
-        continueTo(nextPage);
-      }
+      startViewTransition(() => continueTo(nextPage));
     }
   }
 

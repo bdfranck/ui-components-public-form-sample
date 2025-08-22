@@ -17,6 +17,7 @@ import {
   GoabTextarea,
   usePublicFormController,
 } from "@abgov/react-components";
+import { startViewTransition } from "./viewTransitions";
 
 type Page = "2B.1" | "2B.2" | "2B.3" | "2B.4" | "2B.5" | "2B.Review";
 type DependentPage = "dependent-name" | "2B.3.Review";
@@ -90,13 +91,7 @@ export const Section2B = ({onComplete}: Section2BProps) => {
     }
 
     if (nextPage) {
-      if (document.startViewTransition) {
-        document.startViewTransition(() => continueTo(nextPage));
-      }
-      else {
-        console.warn("View transitions not supported, navigating directly");
-        continueTo(nextPage);
-      }      
+      startViewTransition(() => continueTo(nextPage));      
     }
   }
 

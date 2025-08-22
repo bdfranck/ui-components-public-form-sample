@@ -10,6 +10,7 @@ import {
 } from "@abgov/react-components";
 import { GoabFormState, requiredValidator } from "@abgov/ui-components-common";
 import React from "react";
+import { startViewTransition } from "./viewTransitions";
 
 type Page = "terms-of-use" | "1B.Review";
 
@@ -52,13 +53,7 @@ export const Section1B = ({ onComplete, onBack }: Section1BProps) => {
         break;
     }
     if (nextPage) {
-      if (document.startViewTransition) {
-        document.startViewTransition(() => continueTo(nextPage));
-      }
-      else {
-        console.warn("View transitions not supported, navigating directly");
-        continueTo(nextPage);
-      }
+      startViewTransition(() => continueTo(nextPage));
     }
   }
 
